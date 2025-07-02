@@ -580,3 +580,4 @@ D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\R
 D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Debug\net8.0\railway.json
 D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Debug\net8.0\Npgsql.dll
 D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\obj\Debug\net8.0\Reto3_YD.sourcelink.json

@@ -17,28 +17,36 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddControllers(); // Agregar controladores para la API
 
+// Configurar base de datos
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     // Usar PostgreSQL en producción (Railway) y SQL Server en desarrollo
     if (builder.Environment.IsProduction())
     {
-        var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") 
-                             ?? builder.Configuration.GetConnectionString("DefaultConnection");
+        var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
         
-        // Si es una URL de Railway/PostgreSQL, convertirla al formato de connection string
-        if (connectionString?.StartsWith("postgresql://") == true)
+        if (!string.IsNullOrEmpty(connectionString) && connectionString.StartsWith("postgresql://"))
         {
+            // Convertir URL de PostgreSQL a connection string
             var uri = new Uri(connectionString);
             var host = uri.Host;
             var port = uri.Port;
             var database = uri.LocalPath.TrimStart('/');
-            var username = uri.UserInfo.Split(':')[0];
-            var password = uri.UserInfo.Split(':')[1];
+            var userInfo = uri.UserInfo.Split(':');
+            var username = userInfo[0];
+            var password = userInfo.Length > 1 ? userInfo[1] : "";
             
-            connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+            connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Prefer;Trust Server Certificate=true";
         }
         
-        options.UseNpgsql(connectionString);
+        if (!string.IsNullOrEmpty(connectionString))
+        {
+            options.UseNpgsql(connectionString);
+        }
+        else
+        {
+            throw new InvalidOperationException("No se pudo configurar la base de datos. Variable DATABASE_URL no encontrada.");
+        }
     }
     else
     {
@@ -51,40 +59,32 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
     {
-        if (builder.Environment.IsDevelopment())
-        {
-            // En desarrollo, permitir cualquier origen
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
-        else
-        {
-            // En producción, permitir Railway y otros orígenes
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-// Aplicar migraciones automáticamente en producción
+// Aplicar migraciones automáticamente en producción con mejor manejo de errores
 if (app.Environment.IsProduction())
 {
-    using (var scope = app.Services.CreateScope())
+    try
     {
+        using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        try
-        {
-            context.Database.Migrate();
-        }
-        catch (Exception ex)
-        {
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "Error aplicando migraciones");
-        }
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        
+        logger.LogInformation("Aplicando migraciones de base de datos...");
+        context.Database.Migrate();
+        logger.LogInformation("Migraciones aplicadas exitosamente.");
+    }
+    catch (Exception ex)
+    {
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Error crítico aplicando migraciones: {Message}", ex.Message);
+        // No lanzar excepción para que la app pueda iniciarse
     }
 }
 
@@ -98,18 +98,23 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// Comentar esta línea para evitar redirección forzada a HTTPS
-// app.UseHttpsRedirection();
-
-app.UseCors("PermitirTodo"); // Aplicar CORS antes de routing
+app.UseCors("PermitirTodo");
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-app.MapControllers(); // Mapear controladores de API
+app.MapControllers();
+
+// Agregar health check para Railway
+app.MapGet("/health", () => "OK");
+app.MapGet("/", () => "Distribuidora YD API está funcionando!");
 
 // Configurar puerto dinámico para Railway
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Run($"http://0.0.0.0:{port}");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var urls = $"http://0.0.0.0:{port}";
+
+app.Logger.LogInformation("Iniciando aplicación en: {Urls}", urls);
+app.Urls.Add(urls);
+
+app.Run();

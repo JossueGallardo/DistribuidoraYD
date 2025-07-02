@@ -284,3 +284,13 @@ D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\R
 D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\obj\Release\net8.0\Reto3_YD.pdb
 D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\obj\Release\net8.0\Reto3_YD.genruntimeconfig.cache
 D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\obj\Release\net8.0\ref\Reto3_YD.dll
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\publish\web.config
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\publish\appsettings.Development.json
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\publish\appsettings.json
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\publish\appsettings.Production.json
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\publish\Reto3_YD.deps.json
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\publish\Reto3_YD.runtimeconfig.json
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\railway.json
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\Npgsql.dll
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\bin\Release\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\Jossue\Desktop\Jossue Puce\Quinto Semestre\Desarrollo Basado en Plataformas\RETO 3\Reto3_YD\Reto3_YD\obj\Release\net8.0\Reto3_YD.sourcelink.json
