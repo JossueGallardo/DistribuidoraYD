@@ -1,0 +1,150 @@
+﻿@page
+@model Reto3_YD.Pages.Facturas.IndexModel
+
+@{
+    ViewData["Title"] = "Gestión de Facturas";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-file-invoice-dollar me-2"></i>Gestión de Facturas
+                    </h3>
+                    <div>
+                        <a asp-page="Create" class="btn btn-light btn-sm me-2">
+                            <i class="fas fa-plus me-1"></i>Nueva Factura
+                        </a>
+                        <a href="/DetallesFacturas" class="btn btn-info btn-sm">
+                            <i class="fas fa-list-alt me-1"></i>Ver Detalles
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><i class="fas fa-hashtag me-1"></i>Número</th>
+                                    <th><i class="fas fa-calendar me-1"></i>Fecha</th>
+                                    <th><i class="fas fa-user me-1"></i>Cliente</th>
+                                    <th><i class="fas fa-envelope me-1"></i>Email</th>
+                                    <th><i class="fas fa-dollar-sign me-1"></i>Total</th>
+                                    <th><i class="fas fa-cogs me-1"></i>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Factura) {
+                                    <tr>
+                                        <td>
+                                            <strong class="text-primary">#@item.Id</strong>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@item.Fecha.ToString("dd/MM/yyyy")</span><br>
+                                            <small class="text-muted">@item.Fecha.ToString("HH:mm")</small>
+                                        </td>
+                                        <td>
+                                            <strong>@Html.DisplayFor(modelItem => item.Cliente.Nombre)</strong>
+                                        </td>
+                                        <td>
+                                            <a href="mailto:@item.Cliente.Email" class="text-decoration-none">
+                                                @Html.DisplayFor(modelItem => item.Cliente.Email)
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var total = item.Detalles?.Sum(d => d.Cantidad * d.PrecioUnitario) ?? 0;
+                                            }
+                                            <span class="text-success fw-bold">$@total.ToString("F2")</span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info btn-sm" title="Ver Detalles">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    @if (!Model.Factura.Any())
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-file-invoice fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No hay facturas registradas</h5>
+                            <p class="text-muted">Las facturas aparecerán aquí cuando se realicen ventas</p>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                Total de facturas: <strong>@Model.Factura.Count()</strong>
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            @{
+                                var totalVentas = Model.Factura.Sum(f => f.Detalles?.Sum(d => d.Cantidad * d.PrecioUnitario) ?? 0);
+                            }
+                            <small class="text-muted">
+                                Total ventas: <strong class="text-success">$@totalVentas.ToString("F2")</strong>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botones de navegación adicionales -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-box fa-2x text-primary mb-2"></i>
+                    <h6>Gestión de Productos</h6>
+                    <a href="/Productos" class="btn btn-outline-primary btn-sm">Ver Productos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-list-alt fa-2x text-info mb-2"></i>
+                    <h6>Detalles de Facturas</h6>
+                    <a href="/DetallesFacturas" class="btn btn-outline-info btn-sm">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-home fa-2x text-success mb-2"></i>
+                    <h6>Sitio Web</h6>
+                    <a href="/Pagina Web Final/index.html" class="btn btn-outline-success btn-sm">Ir al Sitio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!Model.Factura.Any())
+{
+    <div class="alert alert-info text-center">
+        <i class="fas fa-info-circle"></i>
+        No hay facturas registradas en el sistema.
+    </div>
+}

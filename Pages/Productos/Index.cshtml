@@ -1,0 +1,154 @@
+﻿@page
+@model Reto3_YD.Pages.Productos.IndexModel
+
+@{
+    ViewData["Title"] = "Gestión de Productos";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-box me-2"></i>Gestión de Productos
+                    </h3>
+                    <a asp-page="Create" class="btn btn-success">
+                        <i class="fas fa-plus me-2"></i>Agregar Nuevo Producto
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>@Html.DisplayNameFor(model => model.Producto[0].Nombre)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Producto[0].Categoria)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Producto[0].Descripcion)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Producto[0].Precio)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Producto[0].Stock)</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Producto) {
+                                    <tr>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.Imagen))
+                                            {
+                                                <img src="@item.Imagen" alt="@item.Nombre" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                            }
+                                            else
+                                            {
+                                                <div class="bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <strong>@Html.DisplayFor(modelItem => item.Nombre)</strong>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Categoria)</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@Html.DisplayFor(modelItem => item.Descripcion)</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-success fw-bold">$@Html.DisplayFor(modelItem => item.Precio)</span>
+                                        </td>
+                                        <td>
+                                            @if (item.Stock < 10)
+                                            {
+                                                <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Stock)</span>
+                                            }
+                                            else if (item.Stock < 20)
+                                            {
+                                                <span class="badge bg-warning text-dark">@Html.DisplayFor(modelItem => item.Stock)</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success">@Html.DisplayFor(modelItem => item.Stock)</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info btn-sm" title="Ver Detalles">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    @if (!Model.Producto.Any())
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No hay productos registrados</h5>
+                            <a asp-page="Create" class="btn btn-primary mt-3">
+                                <i class="fas fa-plus me-2"></i>Agregar Primer Producto
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                Total de productos: <strong>@Model.Producto.Count()</strong>
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <small class="text-muted">
+                                Stock bajo: <strong class="text-danger">@Model.Producto.Count(p => p.Stock < 10)</strong>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botones de navegación adicionales -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-invoice-dollar fa-2x text-primary mb-2"></i>
+                    <h6>Gestión de Facturas</h6>
+                    <a href="/Facturas" class="btn btn-outline-primary btn-sm">Ver Facturas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x text-info mb-2"></i>
+                    <h6>Gestión de Clientes</h6>
+                    <a href="/Clientes" class="btn btn-outline-info btn-sm">Ver Clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-home fa-2x text-success mb-2"></i>
+                    <h6>Sitio Web</h6>
+                    <a href="/Pagina Web Final/index.html" class="btn btn-outline-success btn-sm">Ir al Sitio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

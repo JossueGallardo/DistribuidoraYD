@@ -1,0 +1,45 @@
+# Archivos de construcción y temporales
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.cache
+.DS_Store
+
+# Configuraciones locales
+appsettings.Development.json
+appsettings.Local.json
+
+# Logs
+*.log
+logs/
+
+# Base de datos local
+*.mdf
+*.ldf
+
+# Paquetes NuGet
+packages/
+*.nupkg
+
+# Variables de entorno
+.env
+.env.local
+
+# Archivos de Visual Studio
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de MSTest
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Otros
+*.tmp
+*.temp

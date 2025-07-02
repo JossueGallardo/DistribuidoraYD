@@ -1,0 +1,136 @@
+﻿@page
+@model Reto3_YD.Pages.Productos.CreateModel
+
+@{
+    ViewData["Title"] = "Crear Producto";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-plus me-2"></i>Crear Nuevo Producto
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Producto.Nombre" class="form-label">
+                                        <i class="fas fa-tag me-1"></i>Nombre del Producto *
+                                    </label>
+                                    <input asp-for="Producto.Nombre" class="form-control" placeholder="Ej: Arroz Premium 1kg" />
+                                    <span asp-validation-for="Producto.Nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Producto.Precio" class="form-label">
+                                        <i class="fas fa-dollar-sign me-1"></i>Precio *
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="Producto.Precio" class="form-control decimal-input" placeholder="0.00" step="0.01" asp-format="{0:F2}" />
+                                    </div>
+                                    <span asp-validation-for="Producto.Precio" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Producto.Descripcion" class="form-label">
+                                <i class="fas fa-align-left me-1"></i>Descripción *
+                            </label>
+                            <textarea asp-for="Producto.Descripcion" class="form-control" rows="3" placeholder="Descripción detallada del producto..."></textarea>
+                            <span asp-validation-for="Producto.Descripcion" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Producto.Stock" class="form-label">
+                                        <i class="fas fa-boxes me-1"></i>Stock Inicial *
+                                    </label>
+                                    <input asp-for="Producto.Stock" class="form-control" placeholder="0" min="0" />
+                                    <span asp-validation-for="Producto.Stock" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Producto.Categoria" class="form-label">
+                                        <i class="fas fa-list me-1"></i>Categoría *
+                                    </label>
+                                    <select asp-for="Producto.Categoria" class="form-control">
+                                        <option value="">Seleccione una categoría</option>
+                                        <option value="Arroz">Arroz</option>
+                                        <option value="Azúcar">Azúcar</option>
+                                        <option value="Aceites">Aceites</option>
+                                        <option value="Lácteos">Lácteos</option>
+                                        <option value="Granos">Granos</option>
+                                        <option value="Condimentos">Condimentos</option>
+                                        <option value="Bebidas">Bebidas</option>
+                                        <option value="Otros">Otros</option>
+                                    </select>
+                                    <span asp-validation-for="Producto.Categoria" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Producto.Imagen" class="form-label">
+                                <i class="fas fa-image me-1"></i>Imagen <small class="text-muted">(Opcional)</small>
+                            </label>
+                            <input asp-for="Producto.Imagen" class="form-control" placeholder="assets/img/producto.jpg o https://ejemplo.com/imagen.jpg" />
+                            <span asp-validation-for="Producto.Imagen" class="text-danger"></span>
+                            <div class="form-text">Puede ser una URL completa o una ruta relativa. Si no se proporciona, se usará una imagen por defecto</div>
+                        </div>
+
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Volver a la Lista
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-1"></i>Crear Producto
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Handle decimal input formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const decimalInputs = document.querySelectorAll('.decimal-input');
+            
+            decimalInputs.forEach(input => {
+                // Replace comma with dot on input
+                input.addEventListener('input', function(e) {
+                    let value = e.target.value;
+                    // Replace comma with dot for decimal separator
+                    value = value.replace(',', '.');
+                    e.target.value = value;
+                });
+                
+                // Validate on blur
+                input.addEventListener('blur', function(e) {
+                    let value = parseFloat(e.target.value);
+                    if (!isNaN(value)) {
+                        e.target.value = value.toFixed(2);
+                    }
+                });
+            });
+        });
+    </script>
+}
