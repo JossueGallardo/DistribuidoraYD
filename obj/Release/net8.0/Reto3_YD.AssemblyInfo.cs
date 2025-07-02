@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Reto3_YD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f70a98b59fad5c051052c4a9d70856020fd9ed62")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff609a5faa971dc923939c5fc443a340d9acabaf")]
 [assembly: System.Reflection.AssemblyProductAttribute("Reto3_YD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Reto3_YD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
